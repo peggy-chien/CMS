@@ -1,0 +1,10 @@
+div#table {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-auto-flow: row;
+}
+
+div#table > div {
+    border: solid 1px black;
+    padding: .2rem .75rem;
+}
