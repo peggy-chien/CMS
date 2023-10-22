@@ -1,17 +1,18 @@
 <?php
   header('Access-Control-Allow-Origin: *');
   header('Content-Type: application/json; charset=utf-8');
+  header("Access-Control-Allow-Methods: POST");
 
   get_post_payload();
 
   function get_post_payload() {
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
       $form_data = new stdClass();
       $form_data->name = htmlspecialchars($_POST['name']);
       $form_data->acco = htmlspecialchars($_POST['acco']);
-      $form_data->birth = htmlspecialchars($_POST['birth']);
+      $form_data->birth = str_replace("-", "", htmlspecialchars($_POST['birth']));
       $form_data->email = htmlspecialchars($_POST['email']);
-      $form_data->pw = $_POST['pw'];
+      $form_data->pw = sha1($_POST['pw']);
       $form_data->tel = htmlspecialchars($_POST['tel']);
       post_db($form_data);
     }

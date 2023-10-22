@@ -1,29 +1,41 @@
 <?php
+  header('Access-Control-Allow-Origin: *');
+  header('Content-Type: application/x-www-form-urlencoded');
+  header("Access-Control-Allow-Methods: DELETE");
 
-$servername = "localhost";
-$username = "db_admin";
-$password = "P@ssw0rd";
-$dbname = "mfee43_03";
+  parse_delete_payload();
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
-
-$sql = "SELECT * FROM `user_table`";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-  // output data of each row
-  while($row = $result->fetch_assoc()) {
-    echo "id: ".$row["u_id"]. " - name: ".$row["u_name"]. " - acco: ".$row["u_acco"]. " - brith: ".$row["u_brith"]. " - email: ".$row["u_email"]. " - pw: ".$row["u_pw"]. " - tel: ".$row["u_tel"]. "<br>";
+  function parse_delete_payload() {
+    if ($_SERVER["REQUEST_METHOD"] === "DELETE") {
+      delete_user($_GET['id']);
+    }
   }
-} else {
-  echo "0 results";
-}
 
-$conn->close();
+  function delete_user($id) {
+    $servername = "localhost";
+    $username = "db_admin";
+    $password = "P@ssw0rd";
+    $dbname = "mfee43_03";
+    
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    // Check connection
+    if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+    }
+    $sql = "DELETE FROM `user_table` WHERE u_id={$id} ";
+    $result = $conn->query($sql);
 
+    if ($result) {
+      echo "SUCCESS";
+    } else {
+      echo "FAILED";
+    }
+
+    $conn->close();
+  }
+    
+  function debug_to_console($data) {
+    echo "<script>console.log(JSON.parse('" . json_encode($data) . "'));</script>";
+  }
 ?>
