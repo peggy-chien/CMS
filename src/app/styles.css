@@ -36,6 +36,16 @@ body {
   font-size: 14px;
   font-family: 'Mukta', sans-serif;
 }
+
+div.content {
+  padding: .5rem 1rem;
+}
+
+:host button.btn {
+  padding: .2rem .3rem;
+
+}
+
 .header{
   background: #f0acac;
   display: flex;
