@@ -1,4 +1,6 @@
 <?php
+  include "connect-db.php";
+
   header('Access-Control-Allow-Origin: *');
   header('Content-Type: application/x-www-form-urlencoded; charset=utf-8');
   header("Access-Control-Allow-Methods: GET");
@@ -6,20 +8,9 @@
   get_db();
 
   function get_db() {
-    $servername = "localhost";
-    $username = "db_admin";
-    $password = "P@ssw0rd";
-    $dbname = "mfee43_03";
-  
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    // Check connection
-    if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-    }
-  
+    $dc = new DatabaseConnector("mfee43_03");
     $sql = "SELECT * FROM `user_table`";
-    $result = $conn->query($sql);
+    $result = $dc->exec_sql($sql);
   
     if ($result->num_rows > 0) {
       $jsonObj = [];
@@ -44,7 +35,7 @@
       gen_http_resp($resp);
     }
     
-    $conn->close();
+    $dc->disconnect_db();
   }
 
   function gen_http_resp($data) {

@@ -1,4 +1,6 @@
 <?php
+  include "connect-db.php";
+
   header('Access-Control-Allow-Origin: *');
   header('Content-Type: application/x-www-form-urlencoded');
   header("Access-Control-Allow-Methods: DELETE");
@@ -12,19 +14,9 @@
   }
 
   function delete_user($id) {
-    $servername = "localhost";
-    $username = "db_admin";
-    $password = "P@ssw0rd";
-    $dbname = "mfee43_03";
-    
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    // Check connection
-    if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-    }
+    $dc = new DatabaseConnector("mfee43_03");
     $sql = "DELETE FROM `user_table` WHERE u_id={$id} ";
-    $result = $conn->query($sql);
+    $result = $dc->exec_sql($sql);
 
     if ($result) {
       echo "SUCCESS";
@@ -32,7 +24,7 @@
       echo "FAILED";
     }
 
-    $conn->close();
+    $dc->disconnect_db();
   }
     
   function debug_to_console($data) {

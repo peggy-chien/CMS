@@ -1,4 +1,6 @@
 <?php
+  include "connect-db.php";
+
   header('Access-Control-Allow-Origin: *');
   header('Content-Type: application/json; charset=utf-8');
   header("Access-Control-Allow-Methods: POST");
@@ -20,20 +22,10 @@
   }
 
   function post_db($form_data) {
-    $servername = "localhost";
-    $username = "db_admin";
-    $password = "P@ssw0rd";
-    $dbname = "mfee43_03";
-    
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    // Check connection
-    if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
-    }
+    $dc = new DatabaseConnector("mfee43_03");
     $sql = "INSERT INTO `user_table` (`u_name`, `u_acco`, `u_birth`, `u_email`, `u_pw`, `u_tel`, `u_addr`) VALUES ";
     $sql .= "('{$form_data->name}', '{$form_data->acco}', '{$form_data->birth}', '{$form_data->email}', '{$form_data->pw}', '{$form_data->tel}', '{$form_data->addr}')";
-    $result = $conn->query($sql);
+    $result = $dc->exec_sql($sql);
 
     if ($result) {
       echo "SUCCESS";
@@ -41,7 +33,7 @@
       echo "FAILED";
     }
 
-    $conn->close();
+    $dc->disconnect_db();
   }
     
   function debug_to_console($data) {
