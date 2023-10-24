@@ -9,14 +9,9 @@
 
   function get_post_payload() {
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
-      $form_data = new stdClass();
-      $form_data->name = $_POST['name'];
-      $form_data->acco = $_POST['acco'];
-      $form_data->birth = str_replace("-", "", $_POST['birth']);
-      $form_data->email = $_POST['email'];
-      $form_data->pw = sha1($_POST['pw']);
-      $form_data->tel = $_POST['tel'];
-      $form_data->addr = $_POST['addr'];
+      $form_data = json_decode(file_get_contents('php://input'));
+      $form_data->birth = str_replace("-", "", $form_data->birth);
+      $form_data->pw = sha1($form_data->pw);
       post_db($form_data);
     }
   }
