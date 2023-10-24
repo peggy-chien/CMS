@@ -85,8 +85,15 @@ function define(html) {
     // }
 
     checkForm() {
-      if (!this.shadowRoot.getElementById("account")) {
+      if (!this.shadowRoot.getElementById("account").value) {
         alert("輸入資料有誤，請確認");
+        return false;
+      }
+      if (
+        this.shadowRoot.getElementById("password").value !==
+        this.shadowRoot.getElementById("password-confirm").value
+      ) {
+        alert("密碼不一致，請確認");
         return false;
       }
       this.submit();
