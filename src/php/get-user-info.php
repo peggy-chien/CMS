@@ -33,7 +33,8 @@
         $object->pw = $row["u_pw"];
         $object->tel = $row["u_tel"];
         $object->addr = $row["u_addr"];
-        $object->datetime = $row["u_datetime"];
+        $object->createtime = $row["u_createtime"];
+        $object->updatetime = $row["u_updatetime"];
         array_push($jsonObj, $object);
       }
       gen_http_resp($jsonObj);

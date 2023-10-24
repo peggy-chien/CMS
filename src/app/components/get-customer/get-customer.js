@@ -41,7 +41,7 @@ function define(html) {
 
     displayData(data) {
       let html =
-        "<div>刪除</div><div>id</div><div>姓名</div><div>帳號</div><div>生日</div><div>電子信箱</div><div>密碼</div><div>連絡電話</div>";
+        "<div>刪除</div><div>id</div><div>姓名</div><div>帳號</div><div>生日</div><div>電子信箱</div><div>密碼</div><div>連絡電話</div><div>地址</div><div>建立時間</div><div>更新時間</div>";
       data.forEach((cus) => {
         html += `<div name="row_${cus.id}">
                     <button class="btn btn-danger" onclick="deleteUser(${cus.id}, '${cus.name}')">刪除</button>
@@ -53,6 +53,9 @@ function define(html) {
         html += `<div name="row_${cus.id}">${cus.email}</div>`;
         html += `<div name="row_${cus.id}">${cus.pw}</div>`;
         html += `<div name="row_${cus.id}">${cus.tel}</div>`;
+        html += `<div name="row_${cus.id}">${cus.addr}</div>`;
+        html += `<div name="row_${cus.id}">${cus.createtime}</div>`;
+        html += `<div name="row_${cus.id}">${cus.updatetime}</div>`;
       });
       this.shadowRoot.getElementById("table").innerHTML = html;
     }
