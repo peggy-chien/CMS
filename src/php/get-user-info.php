@@ -1,6 +1,6 @@
 <?php
   header('Access-Control-Allow-Origin: *');
-  header('Content-Type: application/json; charset=utf-8');
+  header('Content-Type: application/x-www-form-urlencoded; charset=utf-8');
   header("Access-Control-Allow-Methods: GET");
 
   get_db();
@@ -32,6 +32,8 @@
         $object->email = $row["u_email"];
         $object->pw = $row["u_pw"];
         $object->tel = $row["u_tel"];
+        $object->addr = $row["u_addr"];
+        $object->datetime = $row["u_datetime"];
         array_push($jsonObj, $object);
       }
       gen_http_resp($jsonObj);
