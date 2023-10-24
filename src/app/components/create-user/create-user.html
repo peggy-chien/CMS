@@ -1,40 +1,80 @@
-<!DOCTYPE html>
-<html lang="zh-tw">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./create-user.css">
-    <script src="./create-user.js"></script>
-    <title>會員註冊</title>
-</head>
-<body>
-    <form action="http://localhost/cms/create-user.php" method="POST" onsubmit="return checkForm()">
-        <fieldset>
-            <legend>帳號</legend>
-            <label for="account">帳號：</label>
-            <input id="account" type="text" name="acco" placeholder="請輸入帳號" required>
-            <label for="password">密碼：</label>
-            <input id="password" type="password" name="pw" placeholder="請輸入密碼" required>
-            <label for="password">密碼確認：</label>
-            <input id="password" type="password" placeholder="請再次輸入密碼" required>
-        </fieldset>
-        
-        <fieldset>
-            <legend>基本資料</legend>
-            <label for="name">姓名：</label>
-            <input id="name" type="text" name="name" placeholder="請輸入全名" required>
-            <label for="birth">生日：</label>
-            <input id="birth" type="date" name="birth" placeholder="請輸入生日" required>
-            <label for="email">信箱：</label>
-            <input id="email" type="email" name="email" placeholder="請輸入電子信箱" pattern="^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" required>
-            <label for="tel">手機：</label>
-            <input id="tel" type="tel" name="tel" placeholder="請輸入手機" pattern="^09\d{8}$" required>
-            <label for="addr">地址：</label>
-            <input id="addr" type="text" name="addr" placeholder="請輸入地址">
-        </fieldset>
+<link rel="stylesheet" href="./components/create-user/create-user.css" />
+<template id="create-form">
+  <form id="my-form">
+    <fieldset>
+      <legend>帳號</legend>
+      <label for="account">帳號：</label>
+      <input
+        id="account"
+        type="text"
+        name="acco"
+        placeholder="請輸入帳號"
+        required
+      />
+      <label for="password">密碼：</label>
+      <input
+        id="password"
+        type="password"
+        name="pw"
+        placeholder="請輸入密碼"
+        required
+      />
+      <label for="password">密碼確認：</label>
+      <input
+        id="password"
+        type="password"
+        placeholder="請再次輸入密碼"
+        required
+      />
+    </fieldset>
 
-        <input type="submit" value="Submit">
-    </form>
-    
-</body>
-</html>
+    <fieldset>
+      <legend>基本資料</legend>
+      <label for="name">姓名：</label>
+      <input
+        id="name"
+        type="text"
+        name="name"
+        placeholder="請輸入全名"
+        required
+      />
+      <label for="birth">生日：</label>
+      <input
+        id="birth"
+        type="date"
+        name="birth"
+        placeholder="請輸入生日"
+        required
+      />
+      <label for="email">信箱：</label>
+      <input
+        id="email"
+        type="email"
+        name="email"
+        placeholder="請輸入電子信箱"
+        pattern="^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+        required
+      />
+      <label for="tel">手機：</label>
+      <input
+        id="tel"
+        type="tel"
+        name="tel"
+        placeholder="請輸入手機"
+        pattern="^09\d{8}$"
+        required
+      />
+      <label for="addr">地址：</label>
+      <input id="addr" type="text" name="addr" placeholder="請輸入地址" />
+    </fieldset>
+
+    <div class="action-bar">
+      <button type="button" class="btn btn-secondary btn-sm" value="cancel">
+        取消
+      </button>
+      <button type="submit" class="btn btn-primary btn-sm" value="submit">
+        送出
+      </button>
+    </div>
+  </form>
+</template>

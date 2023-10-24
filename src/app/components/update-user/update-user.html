@@ -1,0 +1,42 @@
+<link rel="stylesheet" href="./components/update-user/update-user.css" />
+<template id="update-modal">
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">資料更新</h1>
+        </div>
+        <div class="modal-body">
+          <label for="account">帳號：</label>
+          <input id="account" type="text" readonly />
+          <label for="name">姓名：</label>
+          <input id="name" type="text" readonly />
+          <label for="birth">生日：</label>
+          <input id="birth" type="date" readonly />
+          <label for="email">信箱：</label>
+          <input id="email" type="email" required />
+          <label for="tel">手機：</label>
+          <input id="tel" type="tel" required />
+          <label for="addr">地址：</label>
+          <input id="addr" type="text" />
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            取消
+          </button>
+          <button type="button" class="btn btn-primary">確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

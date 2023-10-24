@@ -19,9 +19,9 @@
     $result = $dc->exec_sql($sql);
 
     if ($result) {
-      echo "SUCCESS";
+      exit("SUCCESS");
     } else {
-      echo "FAILED";
+      exit("FAILED");
     }
 
     $dc->disconnect_db();
