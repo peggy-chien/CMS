@@ -11,7 +11,7 @@ Content management system using web components, php, and MySQL.
 4. Start XAMPP.
 
 ### Setup Database
-6. Open your browser and go to *[http://localhost/phpmyadmin](http://localhost/phpmyadmin*).
+6. Open your browser and go to *[http://localhost/phpmyadmin](http://localhost/phpmyadmin)*.
 7. Click **Import** on the upper nav bar.
 8. Import file from `<GitBasePath>/cms/sql/mfee43_03.sql` to create database and table.
 9. Import file from `<GitBasePath>/cms/sql/create_db_admin.sql` to create db user which has limited permission.
