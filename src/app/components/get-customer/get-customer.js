@@ -23,20 +23,42 @@ function define(html) {
     }
 
     getUserData() {
-      const xhttp = new XMLHttpRequest();
-      xhttp.open("GET", "http://localhost/cms/get-user-info.php", true);
-      xhttp.setRequestHeader(
-        "Content-type",
-        "application/x-www-form-urlencoded"
-      );
-      xhttp.send();
-
-      const $this = this;
-      xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-          $this.displayData(JSON.parse(this.responseText));
-        }
-      };
+      fetch("http://localhost/cms/get-user-info.php", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            return Promise.reject(response);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if (!data.message) {
+            this.displayData(data);
+          } else {
+            console.log(data.message);
+          }
+        })
+        .catch((error) => {
+          if (typeof error.json === "function") {
+            error
+              .json()
+              .then((jsonError) => {
+                console.log("Json error from API");
+                console.log(jsonError);
+              })
+              .catch((genericError) => {
+                console.log("Generic error from API");
+                console.log(error.statusText);
+              });
+          } else {
+            console.log("Fetch error");
+            console.log(error);
+          }
+        });
     }
 
     displayData(data) {
@@ -44,9 +66,7 @@ function define(html) {
         "<div>刪除</div><div>id</div><div>姓名</div><div>帳號</div><div>生日</div><div>電子信箱</div><div>密碼</div><div>連絡電話</div><div>地址</div><div>建立時間</div><div>更新時間</div>";
       data.forEach((cus) => {
         html += `<div name="row_${cus.id}">
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              Launch demo modal
-            </button>
+                    <button class="btn btn-warning btn-sm edit-item" data-id="${cus.id}" data-name="${cus.name}" data-acco="${cus.acco}" data-birth="${cus.birth}" data-email="${cus.email}" data-pw="${cus.pw}" data-tel="${cus.tel}" data-addr="${cus.addr}">編輯</button>
                     <button class="btn btn-danger btn-sm remove-item" data-id="${cus.id}" data-name="${cus.name}">刪除</button>
                 </div>`;
         html += `<div name="row_${cus.id}">${cus.id}</div>`;
@@ -62,9 +82,17 @@ function define(html) {
       });
       this.shadowRoot.getElementById("table").innerHTML = html;
 
-      this.handleDeleteUserListener(
-        this.shadowRoot.querySelectorAll(".remove-item")
-      );
+      this.handleEditUserListener(this.shadowRoot.querySelectorAll(".edit-item"));
+
+      this.handleDeleteUserListener(this.shadowRoot.querySelectorAll(".remove-item"));
+    }
+
+    handleEditUserListener(arrayOfElements) {
+      arrayOfElements.forEach((element) => {
+        element.onclick = (event) => {
+          this.editUser(event.target.dataset);
+        };
+      });
     }
 
     handleDeleteUserListener(arrayOfElements) {
@@ -75,18 +103,15 @@ function define(html) {
       });
     }
 
+    editUser(obj) {
+      this.dispatchEvent(new CustomEvent("showModal", { detail: { ...obj } }));
+    }
+
     deleteUser(obj) {
       if (confirm(`確認刪除${obj.name}(代號：${obj.id})？`)) {
         const xhttp = new XMLHttpRequest();
-        xhttp.open(
-          "DELETE",
-          `http://localhost/cms/delete-user.php?id=${obj.id}`,
-          true
-        );
-        xhttp.setRequestHeader(
-          "Content-type",
-          "application/x-www-form-urlencoded"
-        );
+        xhttp.open("DELETE", `http://localhost/cms/delete-user.php?id=${obj.id}`, true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send();
 
         const $this = this;
@@ -97,9 +122,7 @@ function define(html) {
               let childArray = Array.prototype.slice.call(
                 $this.shadowRoot.querySelectorAll(`div[name='row_${obj.id}']`)
               );
-              childArray.forEach((child) =>
-                child.parentNode.removeChild(child)
-              );
+              childArray.forEach((child) => child.parentNode.removeChild(child));
             }
           }
         };

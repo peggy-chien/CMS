@@ -9,7 +9,7 @@
 
   function get_db() {
     $dc = new DatabaseConnector("mfee43_03");
-    $sql = "SELECT * FROM `user_table`";
+    $sql = "SELECT * FROM `user_table` ORDER BY u_id desc";
     $result = $dc->exec_sql($sql);
   
     if ($result->num_rows > 0) {

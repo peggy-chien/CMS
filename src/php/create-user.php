@@ -23,9 +23,9 @@
     $result = $dc->exec_sql($sql);
 
     if ($result) {
-      exit("SUCCESS");
+      echo json_encode(['type' => 'SUCCESS']);
     } else {
-      exit("FAILED");
+      echo json_encode(['type' => 'FAILED']);
     }
 
     $dc->disconnect_db();

@@ -1,29 +1,40 @@
 <?php
+  include "connect-db.php";
 
-$servername = "localhost";
-$username = "db_admin";
-$password = "P@ssw0rd";
-$dbname = "mfee43_03";
+  header('Access-Control-Allow-Origin: *');
+  header('Content-Type: application/x-www-form-urlencoded; charset=utf-8');
+  header("Access-Control-Allow-Methods: PATCH");
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+  get_post_payload();
 
-$sql = "SELECT * FROM `user_table`";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-  // output data of each row
-  while($row = $result->fetch_assoc()) {
-    echo "id: ".$row["u_id"]. " - name: ".$row["u_name"]. " - acco: ".$row["u_acco"]. " - brith: ".$row["u_brith"]. " - email: ".$row["u_email"]. " - pw: ".$row["u_pw"]. " - tel: ".$row["u_tel"]. "<br>";
+  function get_post_payload() {
+    if ($_SERVER["REQUEST_METHOD"] === "PATCH") {
+      $form_data = json_decode(file_get_contents('php://input'));
+      post_db($form_data);
+    }
   }
-} else {
-  echo "0 results";
-}
 
-$conn->close();
+  function post_db($form_data) {
+    $dc = new DatabaseConnector("mfee43_03");
+    $set = "";
+    foreach ($form_data as $key => $value) {
+      if ($key !== "id") {
+        $set .= "u_{$key} = '{$value}',";
+      }
+    }
+    $sql = "UPDATE `user_table` SET ". substr($set, 0, -1). " WHERE u_id = {$form_data->id}";
+    $result = $dc->exec_sql($sql);
 
+    if ($result) {
+      echo json_encode(['type' => 'SUCCESS']);
+    } else {
+      echo json_encode(['type' => 'FAILED']);
+    }
+
+    $dc->disconnect_db();
+  }
+    
+  function debug_to_console($data) {
+    echo "<script>console.log(JSON.parse('" . json_encode($data) . "'));</script>";
+  }
 ?>
